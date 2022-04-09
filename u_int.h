@@ -3,8 +3,8 @@
 #endif //SE1TWITTERPROJ_U_INT_H
 
 // Prototypes
-int follow();
-int unfollow();
-int didYouMean();
+int follow(void);
+int unfollow(void);
+int didYouMean(void);
 
 

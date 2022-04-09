@@ -3,5 +3,5 @@
 #endif //SE1TWITTERPROJ_FEED_H
 
 // Prototypes
-int postTweet();
-int getNewsFeed();
+int postTweet(void);
+int getNewsFeed(void);
