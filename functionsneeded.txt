@@ -1,0 +1,20 @@
+Necessary Functions:
+
+MakeAccount(); - Make new account - Not Done
+
+postTweet(); - posts a new tweet to the NewsFeed array - Not Done
+
+getNewsFeed(); - prints the previous 10 tweets - Not Done
+
+follow(); - Follow a selected account - Not Done 
+
+unfollow(); - Unfollow a selected account (account must already be followed) - Not Done
+
+deleteAccount(); - Delete current account being used. - Not Done
+
+endTurn(); - End the turn for current user and go to next. - Not Done
+
+endTwitter(); - End the program - Not Done
+
+Menu(); - Drives the program - Not Done
+
