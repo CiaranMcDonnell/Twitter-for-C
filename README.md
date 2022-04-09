@@ -12,5 +12,5 @@ N/A
 N/A
 
 ## License
-Ciarán McDonnell (ciaranmcdonnell@protonmail.com)
+Ciarán McDonnell (ciaranmcdonnell@protonmail.com) <br />
 Ruairí Fagan ()
