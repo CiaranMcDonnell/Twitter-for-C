@@ -6,5 +6,6 @@
 int follow(void);
 int unfollow(void);
 int didYouMean(void);
+int viewProfile(void);
 
 
