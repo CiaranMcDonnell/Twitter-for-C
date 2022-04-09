@@ -9,5 +9,9 @@ int unfollow(){
 }
 
 int didYouMean(){
+
+}
+
+int viewProfile(){
     
 }
