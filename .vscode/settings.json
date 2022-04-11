@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "account.h": "c",
+        "feed.h": "c"
+    }
+}
