@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct accountsNode {
+    char username[15]; /* each listNode contains a character */
+    struct accountsNode *nextPtr; /* pointer to next node */
+};
+
+typedef struct accountsNode AccountsNode; /* synonym for struct listNode */
+typedef AccountsNode *AccountsNodePtr; /* synonym for ListNode* */
+
 //protypes
 void makeAccounts(void);
 void deleteAccount(void);
