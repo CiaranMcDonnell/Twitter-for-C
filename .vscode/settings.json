@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "account.h": "c",
-        "feed.h": "c"
+        "feed.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c"
     }
 }

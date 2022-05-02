@@ -4,15 +4,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct accountsNode {
-    char username[15]; /* each listNode contains a character */
-    struct accountsNode *nextPtr; /* pointer to next node */
-};
+typedef struct accountsNode {
+	char username[15];
+	struct accountsNode *nextPtr;
+} accountNode;
 
-typedef struct accountsNode AccountsNode; /* synonym for struct listNode */
-typedef AccountsNode *AccountsNodePtr; /* synonym for ListNode* */
+typedef accountNode *accountNodePtr; /* synonym for ListNode* */
+
 
 //protypes
-void makeAccounts(void);
+void makeAccounts(accountNodePtr *startPtr);
+void printAccounts(accountNodePtr startPtr);
 void deleteAccount(void);
+void accountName(accountNodePtr startPtr, char *uname);

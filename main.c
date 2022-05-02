@@ -8,9 +8,11 @@ void row(char* text1, char* text2);
 
 int main(){
     int endTwitter = 0;
+    accountNode *startPtr = NULL;
     printf("\nWelcome to...\nTwitter in C!\n");
-    //makeAccounts();
-    menuTable();
+    makeAccounts(&startPtr);
+    printAccounts(startPtr);
+    //menuTable();
     // while (endTwitter = 0){
     //     printf("\nWould you like to: \n\n");
     //     menu_table();
