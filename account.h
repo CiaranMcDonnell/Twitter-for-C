@@ -6,8 +6,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_ACCOUNTS 500
+#define MAX_USERNAME 15
+
 typedef struct accountsNode {
-	char username[15];
+	char username[MAX_USERNAME];
+	struct followNode *followersPtr;
+	struct followNode *followingPtr;
 	struct accountsNode *nextPtr;
 } accountNode;
 

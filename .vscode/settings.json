@@ -3,6 +3,7 @@
         "account.h": "c",
         "feed.h": "c",
         "stdlib.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "u_int.h": "c"
     }
 }

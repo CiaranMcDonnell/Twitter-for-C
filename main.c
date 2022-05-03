@@ -7,16 +7,33 @@ void line(void);
 void row(char* text1, char* text2);
 
 int main(){
-    int endTwitter = 0;
+    int endTwitter = 0, menChoice;
     accountNode *startPtr = NULL;
-    printf("\nWelcome to...\nTwitter in C!\n");
+    printf("\nWelcome to...\nTwitter for C!\n");
     makeAccounts(&startPtr);
-    printAccounts(startPtr);
-    //menuTable();
-    // while (endTwitter = 0){
-    //     printf("\nWould you like to: \n\n");
-    //     menu_table();
-    // }
+    accountNode *curAcPtr = startPtr;
+    // printAccounts(curAcPtr);
+    while (endTwitter = 0 && curAcPtr != NULL){
+        printf("\nWould you like to: \n\n");
+        menuTable();
+        while (scanf("%i", &menChoice)==0){
+            printf("Input must be an integer from 1-6\nPlease try again\n\nEnter: ");
+        }
+        if (menChoice==1){
+            printf("News feed");
+        }else if (menChoice==2){
+            printf("News feed");
+        }else if (menChoice==3){
+            printf("News feed");
+        }else if (menChoice==4){
+            printf("News feed");
+        }else if (menChoice==5){
+            printf("News feed");
+        }else{
+            endTwitter = 1;
+            printf("\nThanks for trying out\nTWITTER FOR C\n\nWe hope to see you again soon :)");
+        }
+    }
     return 0;
 }
 
@@ -31,6 +48,7 @@ void menuTable(void){
         row(menuNums[i], menuOptions[i]);
     }
     line();
+    printf("\nEnter: ");
 }
 
 void line(void){

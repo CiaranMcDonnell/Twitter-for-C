@@ -1,9 +1,9 @@
 #include "feed.h"
 
-int postTweet(){
+int postTweet(void){
 
 }
 
-int getNewsFeed(){
+int getNewsFeed(void){
 
 }

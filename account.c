@@ -3,13 +3,15 @@
 void makeAccounts(accountNodePtr *startPtr){
     accountNodePtr endPtr = NULL;
     accountNodePtr newPtr;
-    char cont='y', uname[15];
+    char cont='y', uname[MAX_USERNAME];
     while (cont=='y' || cont == 'Y'){
         newPtr = (accountNode*)malloc(sizeof(accountNode));
         if (newPtr != NULL) {
             accountName(*startPtr, uname);
             strcpy(newPtr->username, uname);
             newPtr->nextPtr = NULL;
+            newPtr->followersPtr = NULL;
+            newPtr->followingPtr = NULL;
             accountNode *previousPtr = endPtr;
             if (*startPtr==NULL){
                 *startPtr = newPtr;
@@ -46,14 +48,14 @@ void accountName(accountNodePtr startPtr, char *uname){
         scanf("%s", &attempt);
         len = strlen(attempt);
         if(len>15){
-            printf("Your input included more than 15 characters\nPlease try again\n\n");
+            printf("Your input included more than 15 characters\nPlease try again\n");
             dq++;
         }
         if (dq!= 1){
             for (int i=0; i<len;i++){
                 if (((attempt[i] > 'Z' || attempt[i]<'A') &&  (attempt[i]>'z' || attempt[i]<'a') &&  (attempt[i]>'9' || attempt[i]<'0')) && attempt[i]!='_'){
                     dq++;
-                    printf("Your input contains illegal characters\nPlease try again\n\n");
+                    printf("Your input contains illegal characters\nPlease try again\n");
                     break;
                 }
             }
@@ -61,7 +63,7 @@ void accountName(accountNodePtr startPtr, char *uname){
         while (testPtr!=NULL && dq!=1) {
             if(strcmp(testPtr->username, attempt) == 0){
                 dq++;
-                printf("Sorry, this username already exists\nPlease try again\n\n");
+                printf("Sorry, this username already exists\nPlease try again\n");
             }
             testPtr = testPtr->nextPtr;
         }    
