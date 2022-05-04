@@ -18,3 +18,5 @@ endTwitter(); - End the program
 
 Menu(); - Drives the program
 
+viewProfile(); CHECK DA PROFILE ;  CHECK
+
