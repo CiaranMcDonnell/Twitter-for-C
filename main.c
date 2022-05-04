@@ -1,39 +1,48 @@
-#include "account.h"
 #include "feed.h"
 #include "u_int.h"
+#include "account.h"
 
 void menuTable(void);
-void line(void);
-void row(char* text1, char* text2);
+void nameHead(char username[]);
 
 int main(){
     int endTwitter = 0, menChoice;
     accountNode *startPtr = NULL;
+    accountNode *curAcPtr = NULL;
     printf("\nWelcome to...\nTwitter for C!\n");
     makeAccounts(&startPtr);
-    accountNode *curAcPtr = startPtr;
+    curAcPtr = startPtr;
     // printAccounts(curAcPtr);
-    while (endTwitter = 0 && curAcPtr != NULL){
-        printf("\nWould you like to: \n\n");
+    nameHead(curAcPtr->username);
+    while (endTwitter == 0){
+        printf("\nWould you like to: \n");
         menuTable();
+        fflush(stdin);
         while (scanf("%i", &menChoice)==0){
             printf("Input must be an integer from 1-6\nPlease try again\n\nEnter: ");
+            fflush(stdin);
         }
         if (menChoice==1){
             printf("News feed");
         }else if (menChoice==2){
-            printf("News feed");
+            follow(startPtr, curAcPtr);
         }else if (menChoice==3){
-            printf("News feed");
+            unfollow(startPtr, curAcPtr);
         }else if (menChoice==4){
-            printf("News feed");
+            printf("Delete Account");
         }else if (menChoice==5){
-            printf("News feed");
+            printf("\nGoodbye %s,\nWe hope to see you again soon :)\n", curAcPtr->username);
+            curAcPtr = curAcPtr->nextPtr;
+            if (curAcPtr != NULL){
+                nameHead(curAcPtr->username);
+            }else{
+                endTwitter = 1;
+            }
         }else{
             endTwitter = 1;
-            printf("\nThanks for trying out\nTWITTER FOR C\n\nWe hope to see you again soon :)");
         }
     }
+    printf("\nThanks for trying out\nTWITTER FOR C\n\n");
     return 0;
 }
 
@@ -42,22 +51,26 @@ void menuTable(void){
     char menuNums[6][3] = {{"1.\0"}, {"2.\0"}, {"3.\0"}, {"4.\0"}, {"5.\0"}, {"6.\0"}};
     line();
     row("No.", "Menu");
-    for (int i=0; i<5;i++){
+    for (int i=0; i<6;i++){
         line();
-        int k=1;
         row(menuNums[i], menuOptions[i]);
     }
     line();
     printf("\nEnter: ");
 }
 
-void line(void){
-    for (int i=0;i<28;i++){
-        printf("=");
-    }
-    printf("\n");
-}
 
-void row(char* text1, char* text2){
-    printf("||%4s ||%16s ||\n", text1, text2);
+void nameHead(char username[]){
+    int len=strlen(username);
+    divLine(70);
+    printf("||");
+    for (int i=0;i<33-(len/2);i++){
+        printf(" ");
+    }
+    printf("%s", username);
+    for (int i=0;i<33-len+(len/2);i++){
+        printf(" ");
+    }
+    printf("||\n");
+    divLine(70);
 }

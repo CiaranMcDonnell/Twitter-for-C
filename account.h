@@ -6,18 +6,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ACCOUNTS 500
 #define MAX_USERNAME 15
+
+typedef struct followsNode {
+	char username[MAX_USERNAME];
+	struct followsNode *nextPtr;
+} followNode;
 
 typedef struct accountsNode {
 	char username[MAX_USERNAME];
-	struct followNode *followersPtr;
-	struct followNode *followingPtr;
+	struct followsNode *followersPtr;
+	struct followsNode *followingPtr;
 	struct accountsNode *nextPtr;
 } accountNode;
 
-typedef accountNode *accountNodePtr; /* synonym for ListNode* */
-
+typedef followNode *followNodePtr;
+typedef accountNode *accountNodePtr;
 
 //protypes
 void makeAccounts(accountNodePtr *startPtr);
