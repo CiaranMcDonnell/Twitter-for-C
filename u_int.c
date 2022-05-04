@@ -1,11 +1,13 @@
 #include "u_int.h"
 
 void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
-    int totAcs;
+    int totAcs, choiceAc;
     accountNodePtr acLoopPtr = startPtr;
     totAcs = followTable(acLoopPtr, curAcPtr);
-    while (scanf()){
+    if (totAcs>0){
+        while (scanf("%i", &choiceAc)==0 || choiceAc<1){
         
+        }
     }
 }
 
@@ -19,7 +21,7 @@ int didYouMean(){
 }
 
 int viewProfile(){
-    divLine(70);
+    divLine(65);
     
 }
 
