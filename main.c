@@ -1,9 +1,9 @@
 #include "feed.h"
 #include "u_int.h"
-#include "account.h"
 
 void menuTable(void);
-void nameHead(char username[]);
+void nameHead(char username[], int nameHead);
+void pressCont(void);
 
 int main(){
     int endTwitter = 0, menChoice;
@@ -13,28 +13,34 @@ int main(){
     makeAccounts(&startPtr);
     curAcPtr = startPtr;
     // printAccounts(curAcPtr);
-    nameHead(curAcPtr->username);
+    nameHead(curAcPtr->username, 33);
     while (endTwitter == 0){
         printf("\nWould you like to: \n");
         menuTable();
         fflush(stdin);
-        while (scanf("%i", &menChoice)==0){
-            printf("Input must be an integer from 1-6\nPlease try again\n\nEnter: ");
+        while (scanf("%i", &menChoice)==0 || menChoice<1 || menChoice>7){
+            printf("Input must be an integer from 1-7\nPlease try again\n\nEnter: ");
             fflush(stdin);
         }
         if (menChoice==1){
             printf("News feed");
+            pressCont();
         }else if (menChoice==2){
-            follow(startPtr, curAcPtr);
+            viewProfile(curAcPtr);
+            pressCont();
         }else if (menChoice==3){
-            unfollow(startPtr, curAcPtr);
+            follow(startPtr, curAcPtr);
+            pressCont();
         }else if (menChoice==4){
-            printf("Delete Account");
+            unfollow(startPtr, curAcPtr);
+            pressCont();
         }else if (menChoice==5){
+            printf("Delete Account");
+        }else if (menChoice==6){
             printf("\nGoodbye %s,\nWe hope to see you again soon :)\n", curAcPtr->username);
             curAcPtr = curAcPtr->nextPtr;
             if (curAcPtr != NULL){
-                nameHead(curAcPtr->username);
+                nameHead(curAcPtr->username, 33);
             }else{
                 endTwitter = 1;
             }
@@ -47,11 +53,11 @@ int main(){
 }
 
 void menuTable(void){
-    char menuOptions[6][16] = {{"View News Feed\0"}, {"Follow a user\0"}, {"Unfollow a user\0"}, {"Delete Account\0"}, {"End Turn\0"}, {"End Twitter\0"}};
-    char menuNums[6][3] = {{"1.\0"}, {"2.\0"}, {"3.\0"}, {"4.\0"}, {"5.\0"}, {"6.\0"}};
+    char menuOptions[7][16] = {{"View News Feed\0"}, {"View Profile\0"}, {"Follow a user\0"}, {"Unfollow a user\0"}, {"Delete Account\0"}, {"End Turn\0"}, {"End Twitter\0"}};
+    char menuNums[7][3] = {{"1.\0"}, {"2.\0"}, {"3.\0"}, {"4.\0"}, {"5.\0"}, {"6.\0"}, {"7.\0"}};
     line();
     row("No.", "Menu");
-    for (int i=0; i<6;i++){
+    for (int i=0; i<7;i++){
         line();
         row(menuNums[i], menuOptions[i]);
     }
@@ -60,17 +66,23 @@ void menuTable(void){
 }
 
 
-void nameHead(char username[]){
+void nameHead(char username[], int startSpace){
     int len=strlen(username);
     divLine(70);
     printf("||");
-    for (int i=0;i<33-(len/2);i++){
+    for (int i=0;i<startSpace-(len/2);i++){
         printf(" ");
     }
     printf("%s", username);
-    for (int i=0;i<33-len+(len/2);i++){
+    for (int i=0;i<startSpace-len+(len/2);i++){
         printf(" ");
     }
     printf("||\n");
     divLine(70);
+}
+
+void pressCont(void){
+    printf("<<< Press any key to continue >>> ");
+    fflush(stdin);
+    getchar();
 }

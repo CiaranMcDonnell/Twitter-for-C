@@ -10,7 +10,7 @@ void divLine(int len);
 void follow(accountNodePtr startPtr, accountNodePtr curAcPtr);
 void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr);
 int didYouMean(void);
-void viewProfile(void);
+void viewProfile(accountNodePtr curAcPtr);
 void line(void);
 void followRow(char* text1, char* text2);
 int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr);

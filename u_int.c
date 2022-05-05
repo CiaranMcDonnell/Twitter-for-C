@@ -5,48 +5,108 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
     accountNodePtr acLoopPtr = startPtr;
     totAcs = followTable(acLoopPtr, curAcPtr);
     if (totAcs>0){
-        while (scanf("%i", &choiceAc)==0 || choiceAc<1){
-        
+        printf("\nEnter: ");
+        while (scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
+            printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
         }
+        totAcs=0;
+        while (totAcs<choiceAc){
+            if (strcmp(acLoopPtr->username, curAcPtr->username)){
+                totAcs--;
+            }else{
+                followNodePtr followingPtr = curAcPtr->followingPtr;
+                while (followingPtr!=NULL){
+                    if (strcmp(followingPtr->username, curAcPtr->username)){
+                        totAcs--;
+                        followingPtr=NULL;
+                    }else{
+                        followingPtr=followingPtr->nextPtr;
+                    }
+                }
+            }
+            acLoopPtr = acLoopPtr->nextPtr;
+            totAcs++;
+        }
+        followNodePtr newFollowingPtr;
+        followNodePtr tempPtr;
+        followNodePtr newFollowersPtr;
+        newFollowingPtr = (followNode*)malloc(sizeof(followNode));
+        newFollowersPtr = (followNode*)malloc(sizeof(followNode));
+        tempPtr = curAcPtr->followingPtr; 
+        strcpy(newFollowingPtr->username, acLoopPtr->username);
+        newFollowingPtr->nextPtr = tempPtr; 
+        curAcPtr->followingPtr = newFollowingPtr;
+        tempPtr = acLoopPtr->followersPtr; 
+        strcpy(newFollowersPtr->username, curAcPtr->username);
+        newFollowersPtr->nextPtr = tempPtr; 
+        acLoopPtr->followersPtr = newFollowersPtr;
+        printf("\nYou are now following %s!\n", acLoopPtr->username);
+    }else{
+        printf("\nUnfortunately you're a popular guy.\nIt seems you already follow all other accounts.\nAs the great DJ Khaled once said: \"Suffering from success\"\n\n");
     }
 }
 
 void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr){
-    accountNodePtr acLoopPtr = startPtr;
-    followTable(acLoopPtr, curAcPtr);
+    // int totAcs, choiceAc;
+    // accountNodePtr acLoopPtr = startPtr;
+    // totAcs = followingTable(acLoopPtr, curAcPtr);
+    // if(totAcs>0){
+    //     printf("\nEnter:");
+    //     while(scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
+    //         printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
+    //     }
+    //     totAcs=0;
+    //     while(totAcs<choiceAc){
+    //         if(strcmp(acLoopPtr->username, curAcPtr->username)){
+    //             totAcs--;
+    //         }
+    //     }
+    // }
 }
 
 int didYouMean(){
 
 }
 
-void viewProfile(void){
+void viewProfile(accountNodePtr curAcPtr){
+    int followers = 0, following = 0, tweets=913;
+    followNodePtr followersPtr = curAcPtr->followersPtr;
+    followNodePtr followingPtr = curAcPtr->followingPtr;
+    //here 
+    while(followersPtr!=NULL){
+        followers++;
+        followersPtr = followersPtr->nextPtr;
+    }
+    while(followingPtr!=NULL){
+        following++;
+        followingPtr = followingPtr->nextPtr;
+    }
+/*  while(tweetPtr !=NULL){
+        tweets++;
+    }*/
     divLine(62);
     printf("||%35s%23s||\n", "USER PROFILE", "");
     divLine(62);
-    printf("||");
-    printf("..............................");
-    printf("||%26s||\n", "");
-    printf("||............#######...........||");
-    printf(" Username:%15s ||\n", curruser);
+    printf("||..............................||%26s||\n", "");
+    printf("||............#######...........|| Username:%15s ||\n", curAcPtr->username);
     printf("||..........###########.........||%26s||\n", "");
     printf("||..........###########.........||==========================||\n");
-    printf("||..........###########.........||==========================||\n");
-    printf("||...........#########..........||                          ||\n");
-    printf("||............#######...........|| Followers: %10d    ||\n", followers);
-    printf("||......###################.....|| Following: %10d    ||\n", following);
+    printf("||..........###########.........||%26s||\n", "");
+    printf("||...........#########..........|| Followers: %10d    ||\n", followers);
+    printf("||............#######...........|| Following: %10d    ||\n", following);
+    printf("||......###################.....||%26s||\n", "");
     printf("||....#######################...||============================\n");
-    printf("||..............................|| Tweets: %10d       ||\n", tweets);
+    printf("||..............................|| Tweets:    %10d    ||\n", tweets);
     divLine(62);
-    printf("||  No. ||      Profile Menu                                ||\n");
+    printf("||  No. ||%6sProfile Menu%32s||\n", "", "");
     divLine(62);
-    printf("||  1.  ||      View Followers                              ||\n");
+    printf("||  1.  ||%6sView Followers%30s||\n","","");
     divLine(62);
-    printf("||  2.  ||      View Following                              ||\n");
+    printf("||  2.  ||%6sView Following%30s||\n");
     divLine(62);
-    printf("||  2.  ||      View Tweets                                 ||\n");
+    printf("||  2.  ||%6sView Tweets%33s||\n","","");
     divLine(62);
-    printf("||  3.  ||      Return to Menu                              ||\n");
+    printf("||  3.  ||%6sReturn to Menu%30s||\n","","");
     divLine(62);
     printf("Enter: ");
 }
@@ -103,7 +163,6 @@ int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr){
         }
     }
     line();
-    printf("\nEnter: ");
     return pos;
 }
 
@@ -117,38 +176,3 @@ void divLine(int len){
 void row(char* text1, char* text2){
     printf("||%4s ||%16s ||\n", text1, text2);
 }
-
-
-
-/*
-===============================================================
-||                                 USER PROFILE              ||
-===============================================================
-||..............................||                           ||
-||............#######...........|| Username: Lopsem √        ||
-||..........###########.........||                           ||
-||..........###########.........||=============================
-||..........###########.........||                           ||
-||............#######...........|| Followers: 44             ||
-||..........###########.........|| Following: 77             ||
-||......###################.....||                           ||
-||....#######################...||=============================
-||..............................|| Tweets: 52                ||
-===============================================================
-||  No. ||      Profile Menu                                 ||
-===============================================================
-||  1.  ||      choicec                                      ||
-===============================================================
-||  2.  ||      choicec                                      ||
-===============================================================
-||  3.  ||      choicec                                      ||
-===============================================================
-||  4.  ||      choicec                                      || 
-===============================================================
-Enter:  
-
-
-
-*/
-
-

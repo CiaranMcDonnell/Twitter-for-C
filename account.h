@@ -15,8 +15,8 @@ typedef struct followsNode {
 
 typedef struct accountsNode {
 	char username[MAX_USERNAME];
-	struct followsNode *followersPtr;
-	struct followsNode *followingPtr;
+	struct followNode *followersPtr;
+	struct followNode *followingPtr;
 	struct accountsNode *nextPtr;
 } accountNode;
 
