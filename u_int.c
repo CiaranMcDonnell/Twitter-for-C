@@ -52,21 +52,29 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
 }
 
 void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr){
-    // int totAcs, choiceAc;
-    // accountNodePtr acLoopPtr = startPtr;
-    // totAcs = followingTable(acLoopPtr, curAcPtr);
-    // if(totAcs>0){
-    //     printf("\nEnter:");
-    //     while(scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
-    //         printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
-    //     }
-    //     totAcs=0;
-    //     while(totAcs<choiceAc){
-    //         if(!strcmp(acLoopPtr->username, curAcPtr->username)){
-    //             totAcs--;
-    //         }
-    //     }
-    // }
+    int totAcs, choiceAc;
+    accountNodePtr acLoopPtr = startPtr;
+    followNodePtr followingPtr = curAcPtr->followingPtr;
+    totAcs = profFolTable(followingPtr, "<< Users You Follow >>");
+    if(totAcs>0){
+        printf("\nEnter:");
+        while(scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
+            printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
+        }
+        totAcs=0;
+
+        while(totAcs<choiceAc){
+            followingPtr=followingPtr->nextPtr;
+            totAcs++;
+        }
+        while(choiceAc!=NULL){
+            if (!strcmp(followingPtr->username, acLoopPtr->username)){
+                hsdfa;
+            }else{
+                
+            }
+        }
+    }
 }
 
 int didYouMean(){
@@ -138,7 +146,7 @@ void viewProfile(accountNodePtr curAcPtr){
     }
 }
 
-void profFolTable(followNodePtr followPtr, char title[]){
+int profFolTable(followNodePtr followPtr, char title[]){
     int following=0, spcLen, i;
     char posStr[10];
     spcLen = 28-strlen(title);
@@ -162,6 +170,7 @@ void profFolTable(followNodePtr followPtr, char title[]){
     }
     divLine(32);
     printf("\n");
+    return following;
 }
 
 void profMen(void){
@@ -186,35 +195,33 @@ void followRow(char* text1, char* text2){
 int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr){
     int pos=1, posConv[10], tempPos, i, x, match;
     char posStr[10];
-    if (acLoopPtr!=NULL){
-        followNodePtr followingPtr = NULL;
-        divLine(32);
-        followRow("No.", "Users     ");
-        while (acLoopPtr!=NULL){
-            match=0;
-            followingPtr = curAcPtr->followingPtr;
-            if (!strcmp(acLoopPtr->username, curAcPtr->username)){
-                match=1;
-            }else{
-                while (followingPtr!=NULL){
-                    if (!strcmp(followingPtr->username, acLoopPtr->username)){
-                        match=1;
-                        followingPtr=NULL;
-                    }else{
-                        followingPtr=followingPtr->nextPtr;
-                    }
+    followNodePtr followingPtr = NULL;
+    divLine(32);
+    followRow("No.", "Users     ");
+    while (acLoopPtr!=NULL){
+        match=0;
+        followingPtr = curAcPtr->followingPtr;
+        if (!strcmp(acLoopPtr->username, curAcPtr->username)){
+            match=1;
+        }else{
+            while (followingPtr!=NULL){
+                if (!strcmp(followingPtr->username, acLoopPtr->username)){
+                    match=1;
+                    followingPtr=NULL;
+                }else{
+                    followingPtr=followingPtr->nextPtr;
                 }
             }
-            if (match==0){
-                intToChar(pos, posStr);
-                divLine(32);
-                followRow(posStr, acLoopPtr->username);
-                pos++;
-            }
-            acLoopPtr=acLoopPtr->nextPtr;
         }
-        divLine(32);
+        if (match==0){
+            intToChar(pos, posStr);
+            divLine(32);
+            followRow(posStr, acLoopPtr->username);
+            pos++;
+        }
+        acLoopPtr=acLoopPtr->nextPtr;
     }
+    divLine(32);
     return pos-1;
 }
 

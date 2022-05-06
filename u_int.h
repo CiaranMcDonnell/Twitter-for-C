@@ -11,7 +11,7 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr);
 void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr);
 int didYouMean(void);
 void viewProfile(accountNodePtr curAcPtr);
-void profFolTable(followNodePtr followersPtr, char title[]);
+int profFolTable(followNodePtr followersPtr, char title[]);
 void profMen(void);
 void followRow(char* text1, char* text2);
 int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr);

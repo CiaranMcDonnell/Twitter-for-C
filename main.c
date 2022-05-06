@@ -26,7 +26,6 @@ int main(){
             pressCont();
         }else if (menChoice==2){
             viewProfile(curAcPtr);
-            pressCont();
         }else if (menChoice==3){
             follow(startPtr, curAcPtr);
             pressCont();
