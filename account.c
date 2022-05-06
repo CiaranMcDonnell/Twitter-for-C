@@ -42,10 +42,10 @@ void accountName(accountNodePtr startPtr, char *uname){
     while (dq!=0){
         testPtr = startPtr;
         dq=0;
-        printf("\n(Usernames are limited to 15 characters and only letters and numbers are permitted)\n");
+        printf("\n(Usernames are limited to 15 characters and only letters, numbers and underscores are permitted)\n");
         printf("Enter: ");
         fflush(stdin);
-        scanf("%s", &attempt);
+        scanf("%[^\n]", &attempt);
         len = strlen(attempt);
         if(len>15){
             printf("Your input included more than 15 characters\nPlease try again\n");
@@ -61,7 +61,7 @@ void accountName(accountNodePtr startPtr, char *uname){
             }
         }
         while (testPtr!=NULL && dq!=1) {
-            if(strcmp(testPtr->username, attempt) == 0){
+            if(!strcmp(testPtr->username, attempt)){
                 dq++;
                 printf("Sorry, this username already exists\nPlease try again\n");
             }

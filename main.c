@@ -3,7 +3,6 @@
 
 void menuTable(void);
 void nameHead(char username[], int nameHead);
-void pressCont(void);
 
 int main(){
     int endTwitter = 0, menChoice;
@@ -55,13 +54,13 @@ int main(){
 void menuTable(void){
     char menuOptions[7][16] = {{"View News Feed\0"}, {"View Profile\0"}, {"Follow a user\0"}, {"Unfollow a user\0"}, {"Delete Account\0"}, {"End Turn\0"}, {"End Twitter\0"}};
     char menuNums[7][3] = {{"1.\0"}, {"2.\0"}, {"3.\0"}, {"4.\0"}, {"5.\0"}, {"6.\0"}, {"7.\0"}};
-    line();
+    divLine(28);
     row("No.", "Menu");
     for (int i=0; i<7;i++){
-        line();
+        divLine(28);
         row(menuNums[i], menuOptions[i]);
     }
-    line();
+    divLine(28);
     printf("\nEnter: ");
 }
 
@@ -79,10 +78,4 @@ void nameHead(char username[], int startSpace){
     }
     printf("||\n");
     divLine(70);
-}
-
-void pressCont(void){
-    printf("<<< Press any key to continue >>> ");
-    fflush(stdin);
-    getchar();
 }
