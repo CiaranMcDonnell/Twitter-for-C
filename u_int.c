@@ -58,22 +58,23 @@ void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr){
     totAcs = profFolTable(followingPtr, "<< Users You Follow >>");
     if(totAcs>0){
         printf("\nEnter:");
+        fflush(stdin);
         while(scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
             printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
-        }
-        totAcs=0;
-
+            fflush(stdin);
+        } 
         while(totAcs<choiceAc){
             followingPtr=followingPtr->nextPtr;
             totAcs++;
         }
-        while(choiceAc!=NULL){
+        while(acLoopPtr->username!=NULL){
             if (!strcmp(followingPtr->username, acLoopPtr->username)){
-                hsdfa;
+                totAcs--;
             }else{
-                
+                acLoopPtr=acLoopPtr->nextPtr;
             }
-        }
+        }           
+        printf("\nUnfortunately you're a loner.\nIt seems you don't follow any accounts.\nAs the great DJ Khaled once said: \"Get Friends\"\n\n");
     }
 }
 
@@ -179,7 +180,7 @@ void profMen(void){
     divLine(62);
     printf("||  1.  ||%6sView Followers%30s||\n","","");
     divLine(62);
-    printf("||  2.  ||%6sView Following%30s||\n");
+    printf("||  2.  ||%6sView Following%30s||\n","","");
     divLine(62);
     printf("||  3.  ||%6sView Tweets%33s||\n","","");
     divLine(62);
