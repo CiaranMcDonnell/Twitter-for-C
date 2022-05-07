@@ -1,6 +1,10 @@
 #include "account.h"
 
 void makeAccounts(accountNodePtr *startPtr){
+    /*
+    Takes in username inputs from end users and uses them to create a linked list of 
+    It creates a linked list of accounts
+    */
     accountNodePtr endPtr = NULL;
     accountNodePtr newPtr;
     char cont='y', uname[MAX_USERNAME];
@@ -36,6 +40,10 @@ void makeAccounts(accountNodePtr *startPtr){
 }
 
 void accountName(accountNodePtr startPtr, char *uname){
+    /*
+    It asks the user to input a username, checks that it's valid, and then copies it to the variable
+    passed to it.
+    */
     accountNodePtr testPtr;
     char attempt[16];
     int len, dq = 1;
@@ -69,15 +77,4 @@ void accountName(accountNodePtr startPtr, char *uname){
         }    
     }
     strcpy(uname,attempt);
-}
-
-void printAccounts(accountNodePtr startPtr){
-    while (startPtr!=NULL) {
-		printf("Account name: %s\n", startPtr->username);
-		startPtr = startPtr->nextPtr;
-	}
-}
-
-void deleteAccount(void){
-
 }
