@@ -76,6 +76,9 @@ int main(){
     printf("||%9sTerminating program...%9s||\n", "", "");
     printf("||%2sThanks for trying out TWITTER FOR C%3s||\n", "", "");
     divLine(44);
+    printf("<<< Press any key to exit >>> ");
+    fflush(stdin);
+    getchar();
     return 0;
 }
 
