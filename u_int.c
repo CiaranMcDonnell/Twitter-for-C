@@ -1,6 +1,9 @@
 #include "u_int.h"
 
 void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
+    /*
+    It's a function that allows a user to follow another user.
+    */
     int totAcs, choiceAc;
     accountNodePtr acLoopPtr = startPtr;
     totAcs = followTable(acLoopPtr, curAcPtr);
@@ -12,6 +15,10 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
             fflush(stdin);
         }
         totAcs=0;
+        /* 
+        Checking if the current account is following the account in the loop. If it is, it will decrement
+        the total accounts.
+        */
         followNodePtr followingPtr;
         while (totAcs<choiceAc){
             if (!strcmp(acLoopPtr->username, curAcPtr->username)){
@@ -32,6 +39,10 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
                 acLoopPtr = acLoopPtr->nextPtr;
             }
         }
+        /*
+        Adding the current account to the account that is being followed's following list and adding the
+        account that is being followed to the current account's followers list.
+        */
         followNodePtr newFollowingPtr;
         followNodePtr tempPtr;
         followNodePtr newFollowersPtr;
@@ -52,40 +63,70 @@ void follow(accountNodePtr startPtr, accountNodePtr curAcPtr){
 }
 
 void unfollow(accountNodePtr startPtr, accountNodePtr curAcPtr){
+    /*
+    Removes a user from the current user's following list and remove the current user
+    from the user's followers list.
+    */
     int totAcs, choiceAc;
     accountNodePtr acLoopPtr = startPtr;
     followNodePtr followingPtr = curAcPtr->followingPtr;
+    followNodePtr followingUserPtr;
+    followNodePtr tempPtr;
     totAcs = profFolTable(followingPtr, "<< Users You Follow >>");
     if(totAcs>0){
-        printf("\nEnter:");
+        printf("\nEnter: ");
         fflush(stdin);
         while(scanf("%i", &choiceAc)==0 || choiceAc<1 || choiceAc>totAcs){
             printf("Input must be an integer within the range of the table\nPlease try again\n\nEnter: ");
             fflush(stdin);
-        } 
-        while(totAcs<choiceAc){
-            followingPtr=followingPtr->nextPtr;
-            totAcs++;
         }
-        while(acLoopPtr->username!=NULL){
-            if (!strcmp(followingPtr->username, acLoopPtr->username)){
-                totAcs--;
-            }else{
+        totAcs=0;
+        /*
+        Removing the account from the list of accounts that the current account is following.
+        */
+        if (choiceAc==1){
+            while (strcmp(followingPtr->username, acLoopPtr->username)!=0){
                 acLoopPtr=acLoopPtr->nextPtr;
             }
-        }           
-        printf("\nUnfortunately you're a loner.\nIt seems you don't follow any accounts.\nAs the great DJ Khaled once said: \"Get Friends\"\n\n");
+            tempPtr=followingPtr->nextPtr;
+            free(curAcPtr->followingPtr);
+            curAcPtr->followingPtr=tempPtr;
+        }else{
+            while(totAcs<(choiceAc-1)){
+                followingPtr=followingPtr->nextPtr;
+                totAcs++;
+            }
+            while (strcmp(followingPtr->nextPtr->username, acLoopPtr->username)!=0){
+                acLoopPtr=acLoopPtr->nextPtr;
+            }
+            tempPtr=followingPtr->nextPtr->nextPtr;
+            free(followingPtr->nextPtr);
+            followingPtr->nextPtr=tempPtr;
+        }
+        
+        /*
+        Freeing the memory of the first node in the linked list.
+        */
+        followingUserPtr = acLoopPtr->followersPtr;
+        tempPtr=followingUserPtr->nextPtr;
+        free(followingUserPtr);
+        acLoopPtr->followersPtr=tempPtr;
+        printf("\nYou have unfollowed %s!\n\n", acLoopPtr->username);
     }
 }
 
-int didYouMean(){
-
-}
-
-void viewProfile(accountNodePtr curAcPtr){
-    int followers = 0, following = 0, tweets=913, menChoice, home=0;
+void viewProfile(accountNodePtr curAcPtr, tweetsNodePtr startTwtPtr){
+    /*
+    It displays the profile of the current user, and allows them to view their followers, following, and
+    tweets
+    */
+    int followers = 0, following = 0, tweets=0, menChoice, home=0;
     followNodePtr followersPtr = curAcPtr->followersPtr;
     followNodePtr followingPtr = curAcPtr->followingPtr;
+    tweetsNodePtr loopTwtPtr = startTwtPtr;
+    /*
+    Counting the number of followers, following and tweets of the current account.
+    */
     while(followersPtr!=NULL){
         followers++;
         followersPtr = followersPtr->nextPtr;
@@ -94,9 +135,12 @@ void viewProfile(accountNodePtr curAcPtr){
         following++;
         followingPtr = followingPtr->nextPtr;
     }
-/*  while(tweetPtr !=NULL){
-        tweets++;
-    }*/
+    while(loopTwtPtr !=NULL){
+        if (!strcmp(loopTwtPtr->username, curAcPtr->username)){
+            tweets++;
+        }
+        loopTwtPtr = loopTwtPtr->nextPtr;
+    }
     divLine(62);
     printf("||%35s%23s||\n", "USER PROFILE", "");
     divLine(62);
@@ -140,7 +184,24 @@ void viewProfile(accountNodePtr curAcPtr){
             printf("\n");
             profMen();
         }else if (menChoice==3){
-
+            int num=0;
+            loopTwtPtr = startTwtPtr;
+            while(loopTwtPtr != NULL){
+                if(!strcmp(loopTwtPtr->username, curAcPtr->username)){
+                    num++;
+                    printNewsFeed(num, loopTwtPtr);
+                }
+                loopTwtPtr=loopTwtPtr->nextPtr;
+            }
+            if(num==0){
+                printf("\nYou have no tweets\nTry getting yourself out there and sharing your opinions with the world\n\n");
+            }else{
+                divLine(62);
+                printf("\n");
+            }
+            pressCont();
+            printf("\n");
+            profMen();
         }else{
             home=1;
         }
@@ -148,6 +209,9 @@ void viewProfile(accountNodePtr curAcPtr){
 }
 
 int profFolTable(followNodePtr followPtr, char title[]){
+    /*
+    It prints a table of the followers of a user.
+    */
     int following=0, spcLen, i;
     char posStr[10];
     spcLen = 28-strlen(title);
@@ -175,6 +239,9 @@ int profFolTable(followNodePtr followPtr, char title[]){
 }
 
 void profMen(void){
+    /*
+    It prints a menu for the user to choose from.
+    */
     divLine(62);
     printf("||  No. ||%6sProfile Menu%32s||\n", "", "");
     divLine(62);
@@ -190,15 +257,19 @@ void profMen(void){
 }
 
 void followRow(char* text1, char* text2){
+    /*
+    It prints out the text in the parameters.
+    */
     printf("||%8s ||%16s ||\n", text1, text2);
 }
 
 int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr){
+    /*
+    It prints out a table of all the users that the current user is not following.
+    */
     int pos=1, posConv[10], tempPos, i, x, match;
     char posStr[10];
     followNodePtr followingPtr = NULL;
-    divLine(32);
-    followRow("No.", "Users     ");
     while (acLoopPtr!=NULL){
         match=0;
         followingPtr = curAcPtr->followingPtr;
@@ -215,6 +286,10 @@ int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr){
             }
         }
         if (match==0){
+            if (pos==1){
+                divLine(32);
+                followRow("No.", "Users     ");
+            }
             intToChar(pos, posStr);
             divLine(32);
             followRow(posStr, acLoopPtr->username);
@@ -222,22 +297,24 @@ int followTable(accountNodePtr acLoopPtr, accountNodePtr curAcPtr){
         }
         acLoopPtr=acLoopPtr->nextPtr;
     }
-    divLine(32);
-    return pos-1;
-}
-
-void divLine(int len){
-    for (int i=0;i<len;i++){
-        printf("=");
+    pos--;
+    if (pos!=0){
+        divLine(32);     
     }
-    printf("\n");
+    return pos;
 }
 
 void row(char* text1, char* text2){
+    /*
+    It prints a row of text with a border
+    */
     printf("||%4s ||%16s ||\n", text1, text2);
 }
 
 void intToChar(int start, char *posStr){
+    /*
+    It converts an integer to a string.
+    */
     char stringRet[10];
     int i=0, x, posConv[10];
     while (start>0){
@@ -254,7 +331,103 @@ void intToChar(int start, char *posStr){
 }
 
 void pressCont(void){
+    /*
+    This function prints continue to the screen and waits for the user to press any key before
+    continuing.
+    */
     printf("<<< Press any key to continue >>> ");
     fflush(stdin);
     getchar();
+}
+
+
+void deleteAccount(accountNodePtr *startPtr, accountNodePtr *curAcPtr, tweetsNodePtr *startTwtPtr){
+    /*
+    The function deletes the current account, removes the current account from the followers list of all
+    the users that the current account is following, removes the current account from the following list
+    of all the users that are following the current account, and deletes all the tweets of the current
+    account.
+    */
+    accountNodePtr acLoopPtr;
+    accountNodePtr tempCur = *curAcPtr;
+    followNodePtr followingPtr = tempCur->followingPtr;
+    followNodePtr tempPtr;
+    followNodePtr tempPtr2;
+    tweetsNodePtr iterTwtPtr;
+    iterTwtPtr = *startTwtPtr;
+    /*
+    Deletes all tweets posted by the current user.
+    */
+    while (iterTwtPtr!=NULL){
+        if (strcmp(iterTwtPtr->username, tempCur->username)==0){
+            iterTwtPtr = *startTwtPtr;
+            iterTwtPtr=iterTwtPtr->nextPtr;
+            free(*startTwtPtr);
+            *startTwtPtr = iterTwtPtr;
+        }else{
+            iterTwtPtr=NULL;
+        }
+    }
+    /*
+    Removing the current user from the followers list of all the users that the current user is following. 
+    */
+    while (followingPtr!=NULL){
+        acLoopPtr = *startPtr;
+        while (strcmp(acLoopPtr->username, followingPtr->username)!=0){
+            acLoopPtr=acLoopPtr->nextPtr;
+        }
+        tempPtr = acLoopPtr->followersPtr->nextPtr;
+        free(acLoopPtr->followersPtr);
+        acLoopPtr->followersPtr=tempPtr;
+
+        followingPtr=followingPtr->nextPtr;
+        free(tempCur->followingPtr);
+        tempCur->followingPtr=followingPtr;
+    }
+    /*
+    Deleting the followers of the account that is being deleted.
+    */
+    tempCur = *curAcPtr;
+    while (tempCur->followersPtr!=NULL){
+        acLoopPtr = *startPtr;
+        while (strcmp(acLoopPtr->username, tempCur->followersPtr->username)!=0){
+            acLoopPtr=acLoopPtr->nextPtr;
+        }
+        if (strcmp(acLoopPtr->followingPtr->username, tempCur->username)==0){
+            tempPtr=acLoopPtr->followingPtr->nextPtr;
+            free(acLoopPtr->followingPtr);
+            acLoopPtr->followingPtr=tempPtr;
+        }else{
+            tempPtr=acLoopPtr->followingPtr;
+            while(strcmp(tempPtr->nextPtr->username, tempCur->username)!=0){
+                tempPtr=tempPtr->nextPtr;
+            }
+            tempPtr2=tempPtr->nextPtr->nextPtr;
+            free(tempPtr->nextPtr);
+            tempPtr->nextPtr=tempPtr2;
+        }
+        tempPtr = tempCur->followersPtr->nextPtr;
+        free(tempCur->followersPtr);
+        tempCur->followersPtr=tempPtr;
+    }
+    /*
+    Deleting the current account. 
+    */
+    if (*startPtr==*curAcPtr){
+        tempCur = *curAcPtr;
+        tempCur=tempCur->nextPtr;
+        free(*curAcPtr);
+        *startPtr=tempCur;
+        *curAcPtr=tempCur;
+    }else{
+        acLoopPtr = *startPtr;
+        tempCur = *curAcPtr;
+        while (strcmp(acLoopPtr->nextPtr->username, tempCur->username)!=0){
+            acLoopPtr=acLoopPtr->nextPtr;
+        }
+        tempCur=acLoopPtr->nextPtr->nextPtr;
+        free(*curAcPtr);
+        *curAcPtr=tempCur;
+        acLoopPtr->nextPtr=tempCur;
+    }
 }
